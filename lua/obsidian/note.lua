@@ -262,7 +262,10 @@ Note._resolve_id_path = function(opts)
         or not (Obsidian.dir / Obsidian.opts.daily_notes.folder):is_parent_of(bufpath)
       )
     then
-      base_dir = Obsidian.buf_dir or assert(bufpath:parent())
+      base_dir = Obsidian.buf_dir
+      if base_dir == nil then
+        base_dir = bufpath:is_dir() and bufpath or assert(bufpath:parent())
+      end
     else
       base_dir = Obsidian.dir
       if creation_opts.notes_subdir ~= nil then
